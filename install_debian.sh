@@ -248,6 +248,7 @@ mkdir -p /tmp/danted && rm /tmp/danted/* -rf && cd /tmp/danted
 id sockd > /dev/null 2>&1 || useradd sockd -s /bin/false
 
 if [ "$INSTALL_FROM" == "compile" ];then
+    apt-get remove -y dante-server
     download_file "https://www.inet.no/dante/files/dante-${VERSION}.tar.gz" "dante-${VERSION}.tar.gz"
 
     if [ -f "dante-${VERSION}.tar.gz" ];then
