@@ -70,7 +70,7 @@ generate_config_iplist(){
 
 generate_config_static(){
     cat <<EOF
-method: pam none
+socksmethod: pam none
 clientmethod: none
 user.privileged: root
 user.notprivileged: sockd
@@ -93,9 +93,9 @@ generate_config_white(){
     for ipaddr_range in ${white_ipaddr};do
         cat <<EOF
 #------------ Network Trust: ${ipaddr_range} ---------------
-pass {
+socks pass {
         from: ${ipaddr_range} to: 0.0.0.0/0
-        method: none
+        socksmethod: none
 }
 
 EOF
@@ -113,10 +113,10 @@ generate_config_whitelist(){
 
 generate_config_bottom(){
     cat <<EOF
-pass {
+socks pass {
         from: 0.0.0.0/0 to: 0.0.0.0/0
         protocol: tcp udp
-        method: pam
+        socksmethod: pam
         log: connect disconnect
 }
 block {
