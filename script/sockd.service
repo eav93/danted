@@ -1,7 +1,7 @@
 # /lib/systemd/system/sockd.service
 [Unit]
 Description=Dante Socks5 Daemon, Provider by sockd.info
-Documentation=https://github.com/lozy/danted
+Documentation=https://github.com/sembruk/danted
 ConditionPathExists=/etc/danted/sockd.conf
 ConditionPathExists=/etc/default/sockd
 ConditionPathExists=!/var/run/sockd.pid

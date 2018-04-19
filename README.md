@@ -1,10 +1,8 @@
 # Sockd
-**Dante socks5 server (v1.3.2) auto-install and management script** 
+**Dante socks5 server (v1.4.2) auto-install and management script** 
 
 ## About
 To build a socks5 server, we have lots of open-source programs to reach that, [Dante](https://www.inet.no/dante/) is one of them.
-I have been using Dante for years and starting to write this auto-install and management script two years ago.
-This is the second update to match the systemd and new OS release like Debian 8 , CentOS 7.
 
 Comparing with the apt-get or building from source manually, this script will benefit you bellow
 
@@ -16,11 +14,11 @@ Comparing with the apt-get or building from source manually, this script will be
 ## Install
 
 ```bash
-wget --no-check-certificate https://raw.github.com/Lozy/danted/master/install.sh -O install.sh 
+wget --no-check-certificate https://raw.github.com/sembruk/danted/master/install.sh -O install.sh 
 bash install.sh
 
 # run with options: bash install.sh option1 option2
-bash install.sh --ip="A.A.A.A:B.B.B.B" --port=2016 --user=sockd --passwd=sockd --whitelist="X.X.X.X/32"
+bash install.sh --ip="A.A.A.A:B.B.B.B" --port=1080 --user=sockd --passwd=sockd --whitelist="X.X.X.X/32"
 
 ```
 
@@ -41,7 +39,7 @@ bash install.sh --uninstall
 | Long Option | Short Option | Value refer | description |
 | :--- | :--- | --- | --- |
 | --ip=                | | ip address list (a.a.a.a:b.b.b.b) *#change ';' to ':' * | Socks5 Server Ip address |
-|  --port=             | | Default: 2016| port for dante socks5 server |
+|  --port=             | | Default: 1080| port for dante socks5 server |
 | --user=              | | Pam-Auth Username | Socks5 Auth user |
 | --passwd=            | | Pam-Auth Password |Socks5 Auth passwd |
 | --whitelist=         | | whitelist ip range (a.a.a.a/32:b.b.b.b/32) |Socks5 Auth IP list |
@@ -66,16 +64,3 @@ bash install.sh --uninstall
 | service sockd adduser | /etc/init.d/sockd adduser | add pam-auth user:  service sockd adduser NAME PASSWORD |
 | service sockd deluser | /etc/init.d/sockd deluser | delete pam-auth user:  service sockd deluser NAME |
 
-
-## Test Pass
-
-| OS release | Platform | Provider | Result |
-| :--- | :--- | --- |  --- | 
-| Debian GNU/Linux 8 (jessie) | x86_64 | vultr | pass |
-| Debian GNU/Linux 7 (wheezy) | x86_64 | vultr | pass |
-| Debian GNU/Linux 7 (wheezy) | i686 | vultr | pass |
-| Ubuntu 16.10 (Yakkety Yak)  | x86_64 | vultr | pass |
-| Ubuntu 14.04.5 LTS | i686 | vultr | pass
-| CentOS Linux 7 (Core) | x86_64 | vultr | pass |
-| CentOS Linux 6 | x86_64 | vultr | pass |
-| CentOS Linux 6 | i686 | vultr | pass |

@@ -3,15 +3,15 @@
 # Provides:          sockd.info (Lozy)
 #
 
-VERSION="1.3.2"
+VERSION="1.4.2"
 INSTALL_FROM="compile"
-DEFAULT_PORT="2016"
+DEFAULT_PORT="1080"
 DEFAULT_USER=""
 DEFAULT_PAWD=""
 WHITE_LIST_NET=""
 WHITE_LIST=""
-SCRIPT_HOST="https://public.sockd.info"
-PACKAGE_NAME="dante_1.3.2-1_$(uname -m).deb"
+SCRIPT_HOST="https://raw.github.com/sembruk/danted/master"
+PACKAGE_NAME="dante_1.4.2-1_$(uname -m).deb"
 COLOR_PATH="/etc/default/color"
 
 BIN_DIR="/etc/danted"
@@ -152,7 +152,7 @@ download_file(){
     [ -z "${filename}" ] && filename="$path"
 
     [ -n "$path" ] && \
-        wget -q --no-check-certificate ${SCRIPT_HOST}/${path} -O ${filename}
+        wget -q --no-check-certificate ${path} -O ${filename}
 
     [ -f "${filename}" ] && [ -n "${execute}" ] && chmod +x ${filename}
 }
@@ -192,9 +192,6 @@ do
       --uninstall)
         remove_install
         exit 0
-      ;;
-      --no-github)
-        echo "skip download script from github.com"
       ;;
       --help|-h)
         clear
@@ -236,38 +233,22 @@ generate_config "${DEFAULT_IPADDR}" "${WHITE_LIST}" "${WHITE_LIST_NET}"
 
 [ -n "$gen_config_only" ]  && echo "===========>> update config" && cat ${CONFIG_PATH} && exit 0
 
-download_file "script/sockd" "${BIN_SCRIPT}" "execute"
+download_file "${SCRIPT_HOST}/script/sockd" "${BIN_SCRIPT}" "execute"
 
 [ -n "$(detect_install)" ] && echo -e "\n[Warning] dante sockd already install." && exit 1
 
-[ -n "$COLOR_PATH" ] && [ ! -s "$COLOR_PATH" ] && download_file "script/color" $COLOR_PATH && . $COLOR_PATH
+[ -n "$COLOR_PATH" ] && [ ! -s "$COLOR_PATH" ] && download_file "${SCRIPT_HOST}/script/color" $COLOR_PATH && . $COLOR_PATH
 
 ########################################## DEBIAN 8 ####################################################################
 apt-get update
-apt-get install unzip apache2-utils gcc g++ make libpam-dev libwrap0-dev -y
+apt-get install apache2-utils gcc g++ make libpam-pwdfile libwrap0-dev -y
 
 mkdir -p /tmp/danted && rm /tmp/danted/* -rf && cd /tmp/danted
 
 id sockd > /dev/null 2>&1 || useradd sockd -s /bin/false
 
-#--# Check libpam-pwdfile
-if [ ! -s /lib/security/pam_pwdfile.so ];then
-    download_file "source/libpam-pwdfile.zip" "libpam-pwdfile.zip"
-    if [ -f "libpam-pwdfile.zip" ];then
-        unzip libpam-pwdfile.zip
-        cd libpam-pwdfile-master
-        make && make install
-        cd ../
-    fi
-fi
-
-if [ -d /lib64/security/ ] && [ ! -f /lib64/security/pam_pwdfile.so ];then
-    [ -f /lib/security/pam_pwdfile.so ] && \
-        cp /lib/security/pam_pwdfile.so /lib64/security/ || echo "[ERROR] pam_pwdfile.so not exist!"
-fi
-
 if [ "$INSTALL_FROM" == "compile" ];then
-    download_file "source/dante-${VERSION}.tar.gz" "dante-${VERSION}.tar.gz"
+    download_file "https://www.inet.no/dante/files/dante-${VERSION}.tar.gz" "dante-${VERSION}.tar.gz"
 
     if [ -f "dante-${VERSION}.tar.gz" ];then
         tar zxvf dante*
@@ -295,7 +276,7 @@ rm /usr/bin/sockd -f && ln -s /etc/danted/sbin/sockd /usr/bin/sockd
 ${BIN_SCRIPT} adduser "${DEFAULT_USER}" "${DEFAULT_PAWD}"
 
 if [ -n "$(ls -l /sbin/init | grep systemd)" ];then
-    download_file "script/sockd.service" "/lib/systemd/system/sockd.service"
+    download_file "${SCRIPT_HOST}/script/sockd.service" "/lib/systemd/system/sockd.service"
     systemctl enable sockd
 else
     update-rc.d sockd defaults
