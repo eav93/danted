@@ -8,7 +8,7 @@ Comparing with the apt-get or building from source manually, this script will be
 
 * Auto-recognize, detect the machine's system automatically and compile from source code.
 * Auto-config, check the system's network or read from argument to auto-generate config file.
-* Same-rotation, in multi-ipaddr system. It works like when using different ip address to connect socks5, your external ip address will be different. That's the main reason why I using Dante for years.
+* Same-rotation, in multi-ipaddr system. It works like when using different ip address to connect socks5, your external ip address will be different.
 * Multi-authorization, you can configure authorization by pam, system or using whitelist.
 
 ## Install
