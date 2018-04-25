@@ -6,7 +6,7 @@
 #   -- Author:      Lozy
 #
 
-REQUEST_SERVER="https://raw.github.com/sembruk/danted/master"
+REQUEST_SERVER="https://raw.github.com/eav93/danted/master"
 SYSTEM_RECOGNIZE=""
 
 if [ -s "/etc/os-release" ];then
