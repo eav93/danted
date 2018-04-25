@@ -10,7 +10,7 @@ DEFAULT_USER=""
 DEFAULT_PAWD=""
 WHITE_LIST_NET=""
 WHITE_LIST=""
-SCRIPT_HOST="https://raw.github.com/sembruk/danted/master"
+SCRIPT_HOST="https://raw.github.com/eav93/danted/master"
 PACKAGE_NAME="dante_1.4.2-1_$(uname -m).deb"
 COLOR_PATH="/etc/default/color"
 
@@ -253,7 +253,7 @@ if [ "$INSTALL_FROM" == "compile" ];then
 
     if [ -f "dante-${VERSION}.tar.gz" ];then
         tar zxvf dante*
-        cd dante* && ./configure --with-sockd-conf=${CONFIG_PATH} --prefix=${BIN_DIR}
+        cd dante-${VERSION} && ./configure --with-sockd-conf=${CONFIG_PATH} --prefix=${BIN_DIR}
         make && make install
     fi
 else
